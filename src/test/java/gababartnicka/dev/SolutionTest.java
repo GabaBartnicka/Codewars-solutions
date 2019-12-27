@@ -1,11 +1,14 @@
 package gababartnicka.dev;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertEquals;
 
 public class SolutionTest {
     @Test
-    void test() {
+    public void test() {
+        assertEquals(")()())()(()()(",
+                Solution.encode("Prespecialized"));
+        assertEquals("))))())))",Solution.encode("   ()(   "));
     }
 }
