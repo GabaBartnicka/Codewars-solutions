@@ -1,26 +1,26 @@
 package gababartnicka.dev;
 
-import java.util.function.Function;
-import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 public class Solution {
-    public static String encode(String word) {
+
+    static String toCamelCase(String s){
         StringBuilder sb = new StringBuilder();
-        char[] allChars = word.toLowerCase().toCharArray();
+        final String[] splited = s.split("-|_");
 
-        Function<Character, Long> counterFunction = character ->
-                IntStream.range(0, allChars.length).mapToObj(i -> allChars[i]).filter(c -> c.equals(character)).count();
+        sb.append(splited[0]);
+        splited[0] ="";
 
-        Stream<Character> charStream = IntStream.range(0, allChars.length).mapToObj(i -> allChars[i]);
-
-        charStream.forEach(c -> {
-            final Long counter = counterFunction.apply(c);
-            sb.append(counter > 1? ")" : "(");
-
-        });
-
+        Stream.of(splited)
+                .filter(w->!w.isBlank())
+                .forEach(word -> sb.append(word.substring(0, 1).toUpperCase()).append(word.substring(1)));
 
         return sb.toString();
     }
 }
+
+/*
+toCamelCase("the-stealth-warrior"); // returns "theStealthWarrior"
+
+toCamelCase("The_Stealth_Warrior"); // returns "TheStealthWarrior"
+ */
