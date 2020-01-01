@@ -1,26 +1,24 @@
 package gababartnicka.dev;
 
-import java.util.stream.Stream;
+import java.util.Comparator;
+import java.util.stream.Collectors;
 
 public class Solution {
-
-    static String toCamelCase(String s){
+    public static int sortDesc(final int num) {
+        final int[] ints = Integer.toString(num).chars().map(n -> n - '0').sorted().toArray();
         StringBuilder sb = new StringBuilder();
-        final String[] splited = s.split("-|_");
+        for (int i = ints.length - 1; i >= 0; i--) {
+            sb.append(ints[i]);
+        }
 
-        sb.append(splited[0]);
-        splited[0] ="";
+        return Integer.parseInt(sb.toString());
+    }
 
-        Stream.of(splited)
-                .filter(w->!w.isBlank())
-                .forEach(word -> sb.append(word.substring(0, 1).toUpperCase()).append(word.substring(1)));
-
-        return sb.toString();
+    public static int sortDescBest(final int num) {
+        return Integer.parseInt(String.valueOf(num)
+                .chars()
+                .mapToObj(i -> String.valueOf(Character.getNumericValue(i)))
+                .sorted(Comparator.reverseOrder())
+                .collect(Collectors.joining()));
     }
 }
-
-/*
-toCamelCase("the-stealth-warrior"); // returns "theStealthWarrior"
-
-toCamelCase("The_Stealth_Warrior"); // returns "TheStealthWarrior"
- */
