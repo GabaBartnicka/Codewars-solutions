@@ -1,24 +1,26 @@
 package gababartnicka.dev;
 
-import java.util.Comparator;
-import java.util.stream.Collectors;
+import java.math.BigDecimal;
 
 public class Solution {
-    public static int sortDesc(final int num) {
-        final int[] ints = Integer.toString(num).chars().map(n -> n - '0').sorted().toArray();
-        StringBuilder sb = new StringBuilder();
-        for (int i = ints.length - 1; i >= 0; i--) {
-            sb.append(ints[i]);
+    public static long findNb(long m) {
+
+        BigDecimal result = BigDecimal.ZERO;
+
+        for (long i = 1;; i++) {
+            final BigDecimal n = BigDecimal.valueOf(i);
+            result = result.add(n.pow(3));
+
+
+            if(result.longValue() == m) {
+                return i;
+            }
+            if(result.longValue() < m) {
+                continue;
+            }
+            if (result.longValue() > m) {
+                return -1;
+            }
         }
-
-        return Integer.parseInt(sb.toString());
-    }
-
-    public static int sortDescBest(final int num) {
-        return Integer.parseInt(String.valueOf(num)
-                .chars()
-                .mapToObj(i -> String.valueOf(Character.getNumericValue(i)))
-                .sorted(Comparator.reverseOrder())
-                .collect(Collectors.joining()));
     }
 }
