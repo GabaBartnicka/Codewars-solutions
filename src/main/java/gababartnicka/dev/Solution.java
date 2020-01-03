@@ -1,26 +1,38 @@
 package gababartnicka.dev;
 
-import java.math.BigDecimal;
+import java.util.stream.IntStream;
 
 public class Solution {
-    public static long findNb(long m) {
+    public static boolean isPrime(int num) {
+        final double sqrt = Math.sqrt(num);
+        double ceil = Math.ceil(sqrt);
+        if ((ceil < 4 && ceil < num) || num/2.0 > ceil)
+            ceil++;
 
-        BigDecimal result = BigDecimal.ZERO;
+        return num > 1 && IntStream.range(2, (int) ceil).filter(i -> num % i == 0).findAny().isEmpty();
+    }
 
-        for (long i = 1;; i++) {
-            final BigDecimal n = BigDecimal.valueOf(i);
-            result = result.add(n.pow(3));
+    public static boolean isPrime2(int num) {
+        if (num <= 1)
+            return false;
 
+        final double sqrt = Math.sqrt(num);
+        double ceil = Math.ceil(sqrt);
+        if ((ceil < 4 && ceil < num) || num/2.0 > ceil)
+            ceil++;
 
-            if(result.longValue() == m) {
-                return i;
-            }
-            if(result.longValue() < m) {
-                continue;
-            }
-            if (result.longValue() > m) {
-                return -1;
+        System.out.println("ceil " + ceil);
+
+        for (int i = 2; i < num; i++) {
+            if (num % i == 0) {
+                System.out.println("found " + i);
+                return false;
             }
         }
+        return true;
+    }
+
+    public static boolean isPrimeWtf(int num) {
+        return num > 1 && java.math.BigInteger.valueOf(num).isProbablePrime(20);
     }
 }

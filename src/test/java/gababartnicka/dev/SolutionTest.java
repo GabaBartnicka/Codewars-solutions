@@ -2,36 +2,44 @@ package gababartnicka.dev;
 
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 public class SolutionTest {
 
     @Test
-    public void test1() {
-        assertEquals(2022, Solution.findNb(4183059834009L));
+    public void testBasic() {
+        assertFalse("0  is not prime", Solution.isPrime(0));
+        assertFalse("1  is not prime", Solution.isPrime(1));
+        assertTrue ("2  is prime",     Solution.isPrime(2));
+        assertTrue ("73 is prime",     Solution.isPrime(73));
+        assertFalse("75 is not prime", Solution.isPrime(75));
+        assertFalse("-1 is not prime", Solution.isPrime(-1));
     }
+
     @Test
-    public void test2() {
-        assertEquals(-1, Solution.findNb(24723578342962L));
+    public void testPrime() {
+        assertTrue("3 is prime", Solution.isPrime(3));
+        assertTrue("5 is prime", Solution.isPrime(5));
+        assertTrue("7 is prime", Solution.isPrime(7));
+        assertTrue("41 is prime", Solution.isPrime(41));
+        assertTrue("5099 is prime", Solution.isPrime(5099));
     }
+
     @Test
-    public void test3() {
-        assertEquals(4824, Solution.findNb(135440716410000L));
+    public void testNotPrime() {
+        assertFalse("4 is not prime", Solution.isPrime(4));
+        assertFalse("6 is not prime", Solution.isPrime(6));
+        assertFalse("8 is not prime", Solution.isPrime(8));
+        assertFalse("9 is not prime", Solution.isPrime(9));
+        assertFalse("45 is not prime", Solution.isPrime(45));
+        assertFalse("-5 is not prime", Solution.isPrime(-5));
+        assertFalse("-8 is not prime", Solution.isPrime(-8));
+        assertFalse("-41 is not prime", Solution.isPrime(-41));
     }
+
     @Test
-    public void test4() {
-        assertEquals(3568, Solution.findNb(40539911473216L));
-    }
-    @Test
-    public void test5() {
-        assertEquals(45, Solution.findNb(1071225L));
-    }
-    @Test
-    public void test6() {
-        assertEquals(-1, Solution.findNb(91716553919377L));
-    }
-    @Test
-    public void test7() {
-        assertEquals(3, Solution.findNb(36L));
+    public void testRandom() {
+        assertFalse("983261449 is not prime", Solution.isPrime(983261449));
+        assertFalse("334414369 is not prime", Solution.isPrime(334414369));
     }
 }
