@@ -6,19 +6,41 @@ import static org.junit.Assert.assertEquals;
 
 public class SolutionTest {
 
+
+    private Solution calc = new Solution();
+
     @Test
-    public void findTest() {
-        assertEquals(5, Solution.findIt(new int[]{20, 1, -1, 2, -2, 3, 3, 5, 5, 1, 2, 4, 20, 4, -1, -2, 5}));
-        assertEquals(-1, Solution.findIt(new int[]{1, 1, 2, -2, 5, 2, 4, 4, -1, -2, 5}));
-        assertEquals(5, Solution.findIt(new int[]{20, 1, 1, 2, 2, 3, 3, 5, 5, 4, 20, 4, 5}));
-        assertEquals(10, Solution.findIt(new int[]{10}));
-        assertEquals(10, Solution.findIt(new int[]{1, 1, 1, 1, 1, 1, 10, 1, 1, 1, 1}));
-        assertEquals(1, Solution.findIt(new int[]{5, 4, 3, 2, 1, 5, 4, 3, 2, 10, 10}));
+    public void shouldWorkWithEmptyString() {
+        assertEquals("Should work with empty string", 0, calc.evaluate(""), 0);
     }
 
     @Test
-    public void test() {
-        assertEquals(-1, Solution.findIt(new int[]{1, 1, 2, -2, 5, 2, 4, 4, -1, -2, 5}));
+    public void shouldParseNumbers() {
+        assertEquals("Should parse numbers", 3, calc.evaluate("3"), 0);
+    }
 
+    @Test
+    public void shouldParseFloatNumbers() {
+        assertEquals("Should parse float numbers", 3.5, calc.evaluate("3.5"), 0);
+    }
+
+    @Test
+    public void shouldSupportAddition() {
+        assertEquals("Should support addition", 4, calc.evaluate("1 3 +"), 0);
+    }
+
+    @Test
+    public void shouldSupportMultiplication() {
+        assertEquals("Should support multiplication", 3, calc.evaluate("1 3 *"), 0);
+    }
+
+    @Test
+    public void shouldSupportSubstraction() {
+        assertEquals("Should support substraction", -2, calc.evaluate("1 3 -"), 0);
+    }
+
+    @Test
+    public void shouldSupportDivision() {
+        assertEquals("Should support division", 2, calc.evaluate("4 2 /"), 0);
     }
 }

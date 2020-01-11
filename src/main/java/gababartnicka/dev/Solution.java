@@ -1,31 +1,38 @@
 package gababartnicka.dev;
 
-import java.util.Arrays;
-import java.util.stream.Collectors;
+import java.util.Stack;
 
 public class Solution {
+    public double evaluate(String expr) {
+        if (expr.isBlank())
+            return 0;
 
-    public static int findIt(int[] a) {
-        return Arrays.stream(a)
-                .mapToObj(value -> (Integer) value)
-                .collect(Collectors.groupingBy(e -> e, Collectors.counting()))
-                .entrySet()
-                .stream()
-                .filter(integerLongEntry -> integerLongEntry.getValue() % 2 != 0)
-                .findAny()
-                .get()
-                .getKey();
-    }
+        final var expressionElements = expr.split(" ");
+        final Stack<Double> stack = new Stack<>();
 
-    public static int findItXor(int[] A) {
-        int xor = 0;
-        for (int i = 0; i < A.length; i++) {
-            xor ^= A[i];
+        for (String element : expressionElements) {
+            try {
+                var value = Double.valueOf(element);
+                stack.push(value);
+            } catch (Exception e) {
+                var b = stack.pop();
+                var a = stack.pop();
+                switch (element) {
+                    case "+":
+                        stack.push(a + b);
+                        break;
+                    case "-":
+                        stack.push(a - b);
+                        break;
+                    case "*":
+                        stack.push(a * b);
+                        break;
+                    case "/":
+                        stack.push(a / b);
+                        break;
+                }
+            }
         }
-        return xor;
-    }
-
-    public static int findItReduce(int[] arr) {
-        return Arrays.stream(arr).reduce(0, (x, y) -> x ^ y);
+        return stack.pop();
     }
 }
