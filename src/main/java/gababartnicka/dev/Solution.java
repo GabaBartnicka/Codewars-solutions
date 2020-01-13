@@ -1,38 +1,36 @@
 package gababartnicka.dev;
 
-import java.util.Stack;
+import java.math.BigInteger;
+import java.util.function.Function;
+import java.util.stream.LongStream;
 
 public class Solution {
-    public double evaluate(String expr) {
-        if (expr.isBlank())
-            return 0;
 
-        final var expressionElements = expr.split(" ");
-        final Stack<Double> stack = new Stack<>();
+    public static String listSquared(long m, long n) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("[");
 
-        for (String element : expressionElements) {
-            try {
-                var value = Double.valueOf(element);
-                stack.push(value);
-            } catch (Exception e) {
-                var b = stack.pop();
-                var a = stack.pop();
-                switch (element) {
-                    case "+":
-                        stack.push(a + b);
-                        break;
-                    case "-":
-                        stack.push(a - b);
-                        break;
-                    case "*":
-                        stack.push(a * b);
-                        break;
-                    case "/":
-                        stack.push(a / b);
-                        break;
-                }
+        Function<Long, Long> findDivisorsAndSquareAndSum = num ->
+                LongStream.rangeClosed(1, num)
+                        .filter(c -> num % c == 0)
+                        .map(e -> e * e)
+                        .sum();
+        for (long i = m; i < n; i++) {
+            final Long sum = findDivisorsAndSquareAndSum.apply(i);
+
+            final BigInteger sqrt = BigInteger.valueOf(sum).sqrt();
+            if (sqrt.pow(2).equals(BigInteger.valueOf(sum))) {
+                if (sb.length() != 1)
+                    sb.append(", ");
+                sb.append("[");
+                sb.append(i);
+                sb.append(", ");
+                sb.append(sum.longValue());
+                sb.append("]");
             }
         }
-        return stack.pop();
+
+        sb.append("]");
+        return sb.toString();
     }
 }
