@@ -1,31 +1,44 @@
 package gababartnicka.dev;
 
-import java.util.function.Function;
+import java.util.Arrays;
+import java.util.stream.Collectors;
 
 public class Solution {
+    public static String pigIt(String str) {
+        String punctuationsRegex = "\\.|,|:|;|\\?|!";
+        var punctuationMarks = Arrays.asList('.', ',', ':', ';', '!', '?');
+        return Arrays.stream(str.split(" "))
+                .map(word -> {
+                    var copyOfWord = word.replaceAll(punctuationsRegex, "");
+                    var sb = new StringBuilder();
 
-    public static int persistence(long n) {
-        Function<Long, Long> reductor = number -> String.valueOf(number)
-                .chars()
-                .mapToObj(i -> (char) i)
-                .map(value -> Long.valueOf(value.toString()))
-                .reduce(1L, (subtotal, element) -> subtotal * element);
+                    if (!copyOfWord.isEmpty())
+                        sb.append(copyOfWord.subSequence(1, copyOfWord.length())).append(copyOfWord.charAt(0)).append("ay");
 
-        int i = 0;
-        while (n >= 10L) {
-            n = reductor.apply(n);
-            i++;
-        }
+                    var chars = word.toCharArray();
 
-        return i;
+                    for (int i = 0; i < chars.length; i++) {
+                        if (punctuationMarks.contains(chars[i])) {
+                            int index = sb.length() == 0 ? 0 : i + 2;
+                            sb.insert(index, chars[i]);
+                        }
+                    }
+                    ;
+
+                    return sb;
+                })
+                .reduce(new StringBuilder(), (subtotal, nextElement) -> subtotal.append(" ").append(nextElement))
+                .toString()
+                .trim();
     }
 
-    public static int persistence2(long n) {
-        int times = 0;
-        while (n >= 10) {
-            n = Long.toString(n).chars().reduce(1, (r, i) -> r * (i - '0'));
-            times++;
-        }
-        return times;
+    public static String pigItWow(String str) {
+        return str.replaceAll("(\\w)(\\w*)", "$2$1ay");
+    }
+
+    public static String pigIt3(String str) {
+        return Arrays.stream(str.trim().split(" "))
+                .map(v -> v.matches("[a-zA-Z]+") ? v.substring(1).concat(v.substring(0, 1)).concat("ay") : v)
+                .collect(Collectors.joining(" "));
     }
 }
