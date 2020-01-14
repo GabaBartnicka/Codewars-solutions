@@ -1,36 +1,31 @@
 package gababartnicka.dev;
 
-import java.math.BigInteger;
 import java.util.function.Function;
-import java.util.stream.LongStream;
 
 public class Solution {
 
-    public static String listSquared(long m, long n) {
-        StringBuilder sb = new StringBuilder();
-        sb.append("[");
+    public static int persistence(long n) {
+        Function<Long, Long> reductor = number -> String.valueOf(number)
+                .chars()
+                .mapToObj(i -> (char) i)
+                .map(value -> Long.valueOf(value.toString()))
+                .reduce(1L, (subtotal, element) -> subtotal * element);
 
-        Function<Long, Long> findDivisorsAndSquareAndSum = num ->
-                LongStream.rangeClosed(1, num)
-                        .filter(c -> num % c == 0)
-                        .map(e -> e * e)
-                        .sum();
-        for (long i = m; i < n; i++) {
-            final Long sum = findDivisorsAndSquareAndSum.apply(i);
-
-            final BigInteger sqrt = BigInteger.valueOf(sum).sqrt();
-            if (sqrt.pow(2).equals(BigInteger.valueOf(sum))) {
-                if (sb.length() != 1)
-                    sb.append(", ");
-                sb.append("[");
-                sb.append(i);
-                sb.append(", ");
-                sb.append(sum.longValue());
-                sb.append("]");
-            }
+        int i = 0;
+        while (n >= 10L) {
+            n = reductor.apply(n);
+            i++;
         }
 
-        sb.append("]");
-        return sb.toString();
+        return i;
+    }
+
+    public static int persistence2(long n) {
+        int times = 0;
+        while (n >= 10) {
+            n = Long.toString(n).chars().reduce(1, (r, i) -> r * (i - '0'));
+            times++;
+        }
+        return times;
     }
 }

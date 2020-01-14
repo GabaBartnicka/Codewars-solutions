@@ -5,19 +5,18 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
 public class SolutionTest {
-
     @Test
-    public void test1() {
-        assertEquals("[[1, 1], [42, 2500], [246, 84100]]", Solution.listSquared(1, 250));
+    public void BasicTests() {
+        System.out.println("****** Basic Tests ******");
+        assertEquals(3, Solution.persistence(39));
+        assertEquals(0, Solution.persistence(4));
+        assertEquals(2, Solution.persistence(25));
+        assertEquals(4, Solution.persistence(999));
     }
 
     @Test
-    public void test2() {
-        assertEquals("[[42, 2500], [246, 84100]]", Solution.listSquared(42, 250));
-    }
-
-    @Test
-    public void test3() {
-        assertEquals("[[287, 84100]]", Solution.listSquared(250, 500));
+    public void single() {
+        System.out.println("****** Basic Tests ******");
+        assertEquals(3, Solution.persistence(39));
     }
 }
