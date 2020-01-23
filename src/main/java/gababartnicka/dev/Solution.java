@@ -1,44 +1,46 @@
 package gababartnicka.dev;
 
 import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class Solution {
-    public static String pigIt(String str) {
-        String punctuationsRegex = "\\.|,|:|;|\\?|!";
-        var punctuationMarks = Arrays.asList('.', ',', ':', ';', '!', '?');
-        return Arrays.stream(str.split(" "))
-                .map(word -> {
-                    var copyOfWord = word.replaceAll(punctuationsRegex, "");
-                    var sb = new StringBuilder();
 
-                    if (!copyOfWord.isEmpty())
-                        sb.append(copyOfWord.subSequence(1, copyOfWord.length())).append(copyOfWord.charAt(0)).append("ay");
-
-                    var chars = word.toCharArray();
-
-                    for (int i = 0; i < chars.length; i++) {
-                        if (punctuationMarks.contains(chars[i])) {
-                            int index = sb.length() == 0 ? 0 : i + 2;
-                            sb.insert(index, chars[i]);
-                        }
-                    }
-                    ;
-
-                    return sb;
-                })
-                .reduce(new StringBuilder(), (subtotal, nextElement) -> subtotal.append(" ").append(nextElement))
-                .toString()
-                .trim();
+    public static List<String> top3(String s) {
+        final String regex = "\\s|:|;|_|-|!|\\.|,|/|\\?+";
+        return Arrays.stream(s.split(regex))
+                .collect(Collectors.groupingBy(e -> e, Collectors.counting()))
+                .entrySet()
+                .stream()
+                .sorted((o1, o2) -> o1.getKey().compareTo(o2.getKey()))
+                .sorted((o1, o2) -> o2.getValue().compareTo(o1.getValue()))
+                .map(Map.Entry::getKey)
+                .map(String::toLowerCase)
+                .map(w -> w.replaceAll("[^a-zA-Z']", ""))
+                .filter(w -> !w.isEmpty())
+                .filter(w -> w.matches("^.*[a-zA-Z]+.*$"))
+                .limit(3)
+                .collect(Collectors.toList());
     }
 
-    public static String pigItWow(String str) {
-        return str.replaceAll("(\\w)(\\w*)", "$2$1ay");
+    /*
+    final static private Pattern P = Pattern.compile("[a-z][a-z']*");
+
+    public static List<String> top3(String s) {
+
+        Map<String,Integer> cnt = new HashMap<>();
+        Matcher m = P.matcher(s.toLowerCase());
+        while (m.find()) {
+            cnt.put(m.group(), cnt.getOrDefault(m.group(), 0)+1);
+        }
+        return cnt.entrySet().stream().sorted(TopWords::compare)
+                  .limit(3).map(Map.Entry::getKey).collect(toList());
     }
 
-    public static String pigIt3(String str) {
-        return Arrays.stream(str.trim().split(" "))
-                .map(v -> v.matches("[a-zA-Z]+") ? v.substring(1).concat(v.substring(0, 1)).concat("ay") : v)
-                .collect(Collectors.joining(" "));
+    private static int compare(Map.Entry<String,Integer> a, Map.Entry<String,Integer> b) {
+        int u = a.getValue(), v = b.getValue();
+        return -Integer.compare(u,v);
     }
+     */
 }
